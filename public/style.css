@@ -1,0 +1,85 @@
+.site-title {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100px;
+  font-weight: 100;
+  margin: 0 0 0 15px;
+  padding-top: 10px;
+}
+
+.filter-container {
+  min-width: 225px;
+  max-width: 225px;
+  margin: 10px 10px auto 10px;
+  padding: 20px;
+  border-radius: 3px;
+  background-color: #efefef;
+}
+
+.filter-container h2 {
+  margin: 0;
+}
+
+.filter-input-container {
+  width: 100%;
+  margin: 20px 0;
+  align-items: center;
+  display: flex;
+  align-items: center;
+}
+
+.filter-input {
+  font-size: 14px;
+  flex: 1 auto;
+  width: 33%;
+  margin-left: 10px;
+  padding: 3px;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+}
+
+#filter-update-button {
+  width: 100%;
+}
+
+.post {
+  display: inline-block;
+  vertical-align: top;
+  height: 300px;
+  width: 300px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #dadada;
+  border-radius: 3px;
+}
+
+.post-contents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+}
+
+.post-image-container img {
+  max-height: 240px;
+  max-width: 300px;
+}
+
+.post-info-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.post-price {
+  display: inline-block;
+  font-size: 80%;
+  padding: 3px;
+  margin: 3px 5px;
+  border: 1px solid #ababab;
+  border-radius: 3px;
+  background: #efefef;
+}
+
+#sell-game-button {
+  position: fixed;
+}
