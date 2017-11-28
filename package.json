@@ -1,0 +1,40 @@
+{
+  "name": "final-project-final-project-group-16",
+  "version": "1.0.0",
+  "description": "CS290 final project (group 16)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo no test commands specified",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OSU-CS290-F17/final-project-final-project-group-16.git"
+  },
+  "contributors": [
+    {
+      "name": "Brian Boly",
+      "email": "bolyb@oregonstate.edu"
+    },
+    {
+      "name": "Timothy Schley",
+      "email": ""
+    },
+    {
+      "name": "Tristen Cox",
+      "email": "coxtr@oregonstate.edu"
+    },
+    {
+      "name": "Winston Pingnomo",
+      "email": "pingnomw@oregonstate.edu"
+    }
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OSU-CS290-F17/final-project-final-project-group-16/issues"
+  },
+  "homepage": "https://github.com/OSU-CS290-F17/final-project-final-project-group-16#readme",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
+}
