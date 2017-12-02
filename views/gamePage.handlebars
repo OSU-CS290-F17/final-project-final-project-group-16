@@ -3,19 +3,6 @@
 	<main class="content">
 
 	  {{>filter}}
-
-      <section id="games">
-
-        <div class="game" data-price="500">
-          <div class="game-contents">
-            <div class="game-image-container">
-              <img src="https://vignette.wikia.nocookie.net/halo/images/e/e5/Halo3coverart.JPG/revision/latest/scale-to-width-down/350?cb=20131024014002" alt="Halo 3">
-            </div>
-            <div class="game-info-container">
-              <a href="#" class="game-title">Halo 3</a> <span class="game-price">$500</span>
-            </div>
-          </div>
-        </div>
 		
 		{{#each gameList}}
 			{{> gameTemplate}}
@@ -25,4 +12,3 @@
     </main>
 
     {{>modal}}
-    
