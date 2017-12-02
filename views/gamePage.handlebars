@@ -1,26 +1,7 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Video Game Catalog</title>
+	{{> header}}
 
-    <link rel="stylesheet" href="/style.css">
-	
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-
-    <script src="/index.js" charset="utf-8" defer></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.runtime.js"></script>
-	<script src="/gameTemplate.js"></script>
-
-  </head>
-  <body>
-
-    <header>
-		<h1 class="site-title"><a href="#">Video Game Catalog</a></h1>
-    </header>
-
-    <main class="content">
-      <aside class="filter-container">
+	<main class="content">
+	  <aside class="filter-container">
 
         <h2>Filters</h2>
 
@@ -51,13 +32,10 @@
             </div>
           </div>
         </div>
+		
+		{{#each gameList}}
+			{{> gameTemplate}}
+		{{/each}}
 
       </section>
-
     </main>
-
-    <button type="button" id="sell-game-button"></button>
-
-  </body>
-
-</html>

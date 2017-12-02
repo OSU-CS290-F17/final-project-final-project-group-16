@@ -2,10 +2,11 @@ var http = require('http');
 console.log("Starting server...\n")
 
 var fs = require('fs');	
-var express = require("express")
+var express = require("express");
+var exphbs = require('express-handlebars');
 var app = express()
 var publicDir = {root: __dirname + "/public/"}
-var error404page = "" // the filename of the 404 page located in /public directory
+var error404page = ""; // the filename of the 404 page located in /public directory
 var MongoClient = require('mongodb').MongoClient;
 
 var port = 3000;
@@ -24,12 +25,16 @@ var mongoURL = 'mongodb://' + mongoUser + ':' + mongoPassword +
  var mongoConnection = null;
 
 app.get("/", function (req, res){
-	res.status(200)
-	res.sendFile("index.html", publicDir, function(err){
-		if (err){
-			throw(err)
+	var gameDataCollection = mongoConnection.collection('gameData');
+	gameDataCollection.find({}).toArray(function (err, results) { 
+		if(err) {
+			res.status(500).send("Error fetching from DB");
+		} else {
+			res.status(200).render('gamePage', {
+				gameList: results
+			});
 		}
-	})
+	});
 })
 
 app.use(express.static('public'));
@@ -43,7 +48,7 @@ app.use('*', function (req, res) {
 	})
 });
 
-MongoClient.connect(mongoURL, function(err, connection) ) {
+MongoClient.connect(mongoURL, function(err, connection) {
 	if (err) {
 		throw err;
 	}
