@@ -9,6 +9,9 @@ var publicDir = {root: __dirname + "/public/"}
 var error404page = ""; // the filename of the 404 page located in /public directory
 var MongoClient = require('mongodb').MongoClient;
 
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
+app.set('view engine', 'handlebars');
+
 var port = 3000;
 if(process.env.PORT!=null){
 	port = process.env.PORT;
