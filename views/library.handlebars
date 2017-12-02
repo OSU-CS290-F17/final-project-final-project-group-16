@@ -1,11 +1,12 @@
-	{{> header}}
+{{> header}}
+<h2 class="subtitle">My Library</h2>
 
 	<main class="content">
 
-	  {{>filter}}
+
       <section id="games">
 		
-		{{#each gameList}}
+		{{#each libraryGameList}}
 			{{> gameTemplate}}
 		{{/each}}
 

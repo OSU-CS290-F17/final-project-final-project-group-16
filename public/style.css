@@ -289,4 +289,9 @@ header a {
   border-radius: 20px;
   background: green;
   padding:4px;
+  margin-right: 10px;
+}
+.subtitle{
+  color:white;
+  text-align: center;
 }
