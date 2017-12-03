@@ -191,10 +191,9 @@ function doFilterUpdate() {
     gameContainer.removeChild(gameContainer.lastChild);
   }
 
-  allGames.forEach(function (gameElem) {
-    if (gamePassesFilters(gameElem, filters)) {
-      gameContainer.appendChild(gameElem);
-      //insertNewGame(game.gameTitle, game.boxArt, game.price);
+  allGames.forEach(function (game) {
+    if (gamePassesFilters(game, filters)) {
+      insertNewGame(game.gameTitle, game.boxArt, game.price);
     }
   });
 
@@ -203,6 +202,37 @@ function doFilterUpdate() {
 
 function insertNewGame(gameTitle, boxArt, price) {
 
+  // create POST request
+    var postRequest = new XMLHttpRequest()
+    postRequest.open("POST", "/sell")
+    
+    // create newGame object containing the newly-added game
+    var newGame = {
+        gameTitle: gameTitle,
+        boxArt: boxArt,
+        price: price
+    }
+    
+    // make a JSON copy of newGame
+    var newGameJSON = JSON.stringify(newGame)
+    postRequest.setRequestHeader('Content-Type', 'application/json')
+    
+    // update client page on successful POST request
+    postRequest.addEventListener('load', function (event) {
+        if (event.target.status == 200) {
+            var newGameHTML = Handlebars.templates.gameTemplate(newGame)
+            var gamesSection = document.getElementById("games")
+            gamesSection.insertAdjacentHTML("beforeend", newGameHTML)
+            allGames = JSON.parse(event.target.response)
+            //console.log(allGames)
+        }
+      
+    });
+    
+    // send newGame JSON to server
+    postRequest.send(newGameJSON)
+  
+  /*
   var gameTemplateArgs = {
 
       gameTitle: gameTitle,
@@ -216,6 +246,7 @@ function insertNewGame(gameTitle, boxArt, price) {
   
   return gameHTML;
 
+*/
 }
 
 
@@ -250,13 +281,12 @@ function clearFiltersAndReinsertGames() {
 
 
 window.addEventListener('DOMContentLoaded', function () {
-/*
+
   var gameElems = document.getElementsByClassName('game');
   for (var i = 0; i < gameElems.length; i++) {
-    allGames.push(gameElems[i]);
-    //allGames.push(parseGameElem(gameElems[i]));
+    allGames.push(parseGameElem(gameElems[i]));
   }
-*/
+
   var sellGameButton = document.getElementById('sell-game-button');
   sellGameButton.addEventListener('click', showSellGameModal);
   //if (sellGameButton) {
