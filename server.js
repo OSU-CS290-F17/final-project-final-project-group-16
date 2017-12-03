@@ -6,17 +6,19 @@ var express = require("express");
 var exphbs = require('express-handlebars');
 var app = express()
 var publicDir = {root: __dirname + "/public/"}
-var error404page = ""; // the filename of the 404 page located in /public directory
-var MongoClient = require('mongodb').MongoClient;
+//var MongoClient = require('mongodb').MongoClient;
+var gameData = require("./gameData")
+var bodyParser = require("body-parser")
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
+app.use(bodyParser.json())
 
 var port = 3000;
 if(process.env.PORT!=null){
 	port = process.env.PORT;
 }
-
+/*
 var mongoHost = process.env.MONGO_HOST;
 var mongoPort = process.env.MONGO_PORT || 27017;
 var mongoUser = process.env.MONGO_USER;
@@ -39,18 +41,30 @@ app.get("/", function (req, res){
 		}
 	});
 })
-
-app.use(express.static('public'));
-
-app.use('*', function (req, res) {
-	res.status(404)
-	res.sendFile(error404page, publicDir, function(err){
-		if (err){
-			throw(err)
-		}
+*/
+app.get("/", function (req, res){
+	res.status(200).render('gamePage', {
+		gameList: gameData
 	})
 });
 
+app.use(express.static('public'));
+
+app.post("/sell", function (req, res, next){
+    
+	gameData.push({
+		price: req.body.price,
+		boxArt: req.body.boxArt,
+		gameTitle: req.body.gameTitle
+	})
+	res.status(200).send(JSON.stringify(gameData))
+})
+
+app.use('*', function (req, res) {
+	res.status(404).render("404")
+});
+
+/*
 MongoClient.connect(mongoURL, function(err, connection) {
 	if (err) {
 		throw err;
@@ -59,4 +73,8 @@ MongoClient.connect(mongoURL, function(err, connection) {
 	app.listen(port, function () {
 		console.log("Server started, listening on port", port);
 	});
+});
+*/
+app.listen(port, function () {
+	console.log("Server started, listening on port", port);
 });
