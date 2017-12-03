@@ -41,7 +41,21 @@ body{
   border: 1px solid #dadada;
   border-radius: 3px;
 }
-
+#library-add-button {
+  font-size: 10px;
+  color: white;
+  padding: 7px;
+  background-color: #000;
+  border: 1px solid #ababab;
+  border-radius: 5px;
+  font-weight: lighter;
+  cursor: pointer;
+}
+#library-add-button:hover {
+  background-color: green;
+  border-color: #333;
+  color: black;
+}
 #filter-update-button {
   width: 100%;
 }
@@ -282,10 +296,11 @@ header a {
   font-size: 32px;
   margin: 0;
 }
+
 .nav-bar{
   display: block;
   position: relative;
-  float:right;
+  float: right;
   border:2px solid black;
   border-radius: 20px;
   background: green;
