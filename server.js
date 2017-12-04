@@ -8,6 +8,7 @@ var app = express()
 var publicDir = {root: __dirname + "/public/"}
 //var MongoClient = require('mongodb').MongoClient;
 var gameData = require("./gameData")
+var libraryGameData = require("./libraryGameData")
 var bodyParser = require("body-parser")
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -43,6 +44,18 @@ app.get("/", function (req, res){
 })
 */
 app.get("/", function (req, res){
+	res.status(200).render('gamePage', {
+		gameList: gameData
+	})
+});
+
+app.get("/library", function (req, res){
+	res.status(200).render('library', {
+		libraryGameList: libraryGameData
+	})
+});
+
+app.get("/gamePage", function (req, res){
 	res.status(200).render('gamePage', {
 		gameList: gameData
 	})
