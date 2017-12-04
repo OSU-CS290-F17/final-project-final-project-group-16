@@ -109,7 +109,7 @@ app.post("/addToLibrary", function (req, res, next){
 })
 
 app.post("/removeFromLibrary", function (req, res, next){
-	if (req.body && req.body.boxArt) {
+	if (req.body) {
 		var libraryDataCollection = mongoConnection.collection('libraryData');
 		
 		libraryDataCollection.remove(
@@ -129,7 +129,7 @@ app.post("/removeFromLibrary", function (req, res, next){
 
 
 app.post("/updateLibrary", function (req, res, next){
-	if (req.body && req.body.boxArt) {
+	if (req.body) {
 		var libraryDataCollection = mongoConnection.collection('libraryData');
 		
 		libraryDataCollection.update(
