@@ -6,9 +6,8 @@ var express = require("express");
 var exphbs = require('express-handlebars');
 var app = express()
 var publicDir = {root: __dirname + "/public/"}
-//var MongoClient = require('mongodb').MongoClient;
-var gameData = require("./gameData")
-var libraryGameData = require("./libraryGameData")
+var MongoClient = require('mongodb').MongoClient;
+
 var bodyParser = require("body-parser")
 
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
@@ -19,7 +18,7 @@ var port = 3000;
 if(process.env.PORT!=null){
 	port = process.env.PORT;
 }
-/*
+
 var mongoHost = process.env.MONGO_HOST;
 var mongoPort = process.env.MONGO_PORT || 27017;
 var mongoUser = process.env.MONGO_USER;
@@ -42,42 +41,78 @@ app.get("/", function (req, res){
 		}
 	});
 })
-*/
-app.get("/", function (req, res){
-	res.status(200).render('gamePage', {
-		gameList: gameData
-	})
-});
 
 app.get("/library", function (req, res){
-	res.status(200).render('library', {
-		libraryGameList: libraryGameData
-	})
+	var libraryDataCollection = mongoConnection.collection('libraryData');
+	libraryDataCollection.find({}).toArray(function (err, results) { 
+		if(err) {
+			res.status(500).send("Error fetching from DB");
+		} else {
+			res.status(200).render('library', {
+				libraryGameList: results
+			});
+		}
+	});
 });
 
 app.get("/gamePage", function (req, res){
-	res.status(200).render('gamePage', {
-		gameList: gameData
-	})
+	var gameDataCollection = mongoConnection.collection('gameData');
+	gameDataCollection.find({}).toArray(function (err, results) { 
+		if(err) {
+			res.status(500).send("Error fetching from DB");
+		} else {
+			res.status(200).render('gamePage', {
+				gameList: results
+			});
+		}
+	});
 });
 
 app.use(express.static('public'));
 
 app.post("/sell", function (req, res, next){
-    
-	gameData.push({
-		price: req.body.price,
-		boxArt: req.body.boxArt,
-		gameTitle: req.body.gameTitle
-	})
-	res.status(200).send(JSON.stringify(gameData))
+	if (req.body && req.body.boxArt) {
+		var gameDataCollection = mongoConnection.collection('gameData');
+		
+		gameDataCollection.insert(
+			{ price: req.body.price, boxArt: req.body.boxArt, gameTitle: req.body.gameTitle },
+			function (err, result){
+				if(err){
+					res.status(500).send("Error fetching from DB");
+				} else {
+					res.status(200).send("Success");
+				}
+			}
+		);
+    } else {
+		res.status(400).send("Request body was missing a field");
+	}
+})
+
+app.post("/addToLibrary", function (req, res, next){
+	if (req.body && req.body.boxArt) {
+		var libraryDataCollection = mongoConnection.collection('libraryData');
+		
+		libraryDataCollection.insert(
+			{ price: req.body.price, boxArt: req.body.boxArt, gameTitle: req.body.gameTitle },
+			function (err, result){
+				if(err){
+					res.status(500).send("Error fetching from DB");
+				} else {
+					res.status(200).send("Success");
+				}
+			}
+		);
+    } else {
+		res.status(400).send("Request body was missing a field");
+	}
 })
 
 app.use('*', function (req, res) {
 	res.status(404).render("404")
 });
 
-/*
+
 MongoClient.connect(mongoURL, function(err, connection) {
 	if (err) {
 		throw err;
@@ -86,8 +121,4 @@ MongoClient.connect(mongoURL, function(err, connection) {
 	app.listen(port, function () {
 		console.log("Server started, listening on port", port);
 	});
-});
-*/
-app.listen(port, function () {
-	console.log("Server started, listening on port", port);
 });

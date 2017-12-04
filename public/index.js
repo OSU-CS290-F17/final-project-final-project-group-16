@@ -128,23 +128,43 @@ function handleModalAcceptClick() {
     var newGameJSON = JSON.stringify(newGame)
     postRequest.setRequestHeader('Content-Type', 'application/json')
     
-    // update client page on successful POST request
-    postRequest.addEventListener('load', function (event) {
-        if (event.target.status == 200) {
-            var newGameHTML = Handlebars.templates.gameTemplate(newGame)
-            var gamesSection = document.getElementById("games")
-            gamesSection.insertAdjacentHTML("beforeend", newGameHTML)
-            allGames = JSON.parse(event.target.response)
-            //console.log(allGames)
-        }
-    })
-    
     // send newGame JSON to server
     postRequest.send(newGameJSON)
     hideSellGameModal();
-
+	location.reload();
   }
 
+}
+
+function handleLibraryAddClick(){
+	var gameTitle = document.getElementById('game-text-input').value.trim();
+	var boxArt = document.getElementById('game-photo-input').value.trim();
+	var price = document.getElementById('game-price-input').value.trim();
+
+	if (!gameTitle || !boxArt || !price) {
+		alert("You must fill in all of the fields!");
+	} else {
+    
+		// create POST request
+		var postRequest = new XMLHttpRequest()
+		postRequest.open("POST", "/addToLibrary")
+		
+		// create newGame object containing the newly-added game
+		var newGame = {
+			gameTitle: gameTitle,
+			boxArt: boxArt,
+			price: price
+		}
+		
+		// make a JSON copy of newGame
+		var newGameJSON = JSON.stringify(newGame)
+		postRequest.setRequestHeader('Content-Type', 'application/json')
+		
+		// send newGame JSON to server
+		postRequest.send(newGameJSON)
+		hideSellGameModal();
+		location.reload();
+	}
 }
 
 function gamePassesFilters(gameElem, filters) {
@@ -188,15 +208,8 @@ function doFilterUpdate() {
 
   var gameContainer = document.getElementById('games');
   while(gameContainer.lastChild) {
-    gameContainer.removeChild(gameContainer.lastChild);
+    //gameContainer.removeChild(gameContainer.lastChild);
   }
-
-  allGames.forEach(function (game) {
-    if (gamePassesFilters(game, filters)) {
-      insertNewGame(game.gameTitle, game.boxArt, game.price);
-    }
-  });
-
 }
 
 
@@ -269,17 +282,6 @@ function parseGameElem(gameElem) {
 
 
 
-function clearFiltersAndReinsertGames() {
-
-  document.getElementById('filter-text').value = "";
-  document.getElementById('filter-min-price').value = "";
-  document.getElementById('filter-max-price').value = "";
-
-  doFilterUpdate();
-
-}
-
-
 window.addEventListener('DOMContentLoaded', function () {
 
   var gameElems = document.getElementsByClassName('game');
@@ -298,6 +300,9 @@ window.addEventListener('DOMContentLoaded', function () {
   //if (modalAcceptButton) {
   //  modalAcceptButton.addEventListener('click', handleModalAcceptClick);
   //}
+  
+  var addButton = document.getElementById('library-add-button');
+  addButton.addEventListener('click', handleLibraryAddClick);
 
   var modalHideButtons = document.getElementsByClassName('modal-hide-button');
   for (var i = 0; i < modalHideButtons.length; i++) {
