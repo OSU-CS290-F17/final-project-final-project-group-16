@@ -1,0 +1,38 @@
+<button type="button" id="library-game-button"><i class="fa fa-usd"></i></button>
+<div id="modal-backdrop" class="hidden"></div>
+<div id="library-game-modal" class="hidden">
+  <div class="modal-dialog">
+
+    <div class="modal-header">
+      <h3>Edit your Library</h3>
+      <button type="button" id="modal-close" class="library-hide-button">&times;</button>
+    </div>
+
+    <div class="modal-body">
+
+      <div class="game-input-element">
+        <label for="library-text-input">Game Title</label>
+        <input type="text" id="library-text-input"></input>
+      </div>
+	  
+	  <div class="game-input-element">
+        <label for="library-photo-input">Box Art</label>
+        <input type="text" id="library-photo-input">
+      </div>
+
+      <div class="game-input-element">
+        <label for="library-price-input">Selling price ($)</label>
+        <input type="number" id="library-price-input">
+      </div>
+
+    </div>
+
+    <div class="modal-footer">
+      <button type="button" id="modal-cancel" class="library-hide-button action-button">Cancel</button>
+	  <button type="button" id="library-add-button" class="library-button">Add Game to Library</button>
+	  <button type="button" id="library-remove-button" class="library-button">Remove Game from Library</button>
+	  <button type="button" id="library-update-button" class="library-button">Update Price</button>
+    </div>
+
+  </div>
+</div>

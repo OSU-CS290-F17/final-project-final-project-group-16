@@ -43,7 +43,7 @@ body{
   border-radius: 3px;
 }
 
-#library-add-button {
+.library-button {
   font-size: 10px;
   color: white;
   padding: 7px;
@@ -54,7 +54,7 @@ body{
   cursor: pointer;
 }
 
-#library-add-button:hover {
+.library-button:hover {
   background-color: green;
   border-color: #333;
   color: black;
@@ -82,6 +82,22 @@ body{
 }
 
 #sell-game-button {
+  position: fixed;
+  right: 30px;
+  bottom: 30px;
+  height: 60px;
+  width: 60px;
+  border: none;
+  border-radius: 30px;
+  font-size: 36px;
+  background-color: green;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.25);
+
+}
+
+#library-game-button {
   position: fixed;
   right: 30px;
   bottom: 30px;
@@ -192,6 +208,16 @@ header a {
 }
 
 #sell-game-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1010;
+  overflow: scroll;
+}
+
+#library-game-modal {
   position: fixed;
   top: 0;
   bottom: 0;

@@ -34,6 +34,42 @@ function hideSellGameModal() {
   clearSellGameModalInputs();
 
 }
+
+function showLibraryGameModal() {
+
+  var showGameModal = document.getElementById('library-game-modal');
+  var modalBackdrop = document.getElementById('modal-backdrop');
+
+  showGameModal.classList.remove('hidden');
+  modalBackdrop.classList.remove('hidden');
+
+}
+
+function clearLibraryGameModalInputs() {
+
+  var gameTextInputElements = [
+    document.getElementById('library-text-input'),
+    document.getElementById('library-photo-input'),
+    document.getElementById('library-price-input')
+  ];
+
+  gameTextInputElements.forEach(function (inputElem) {
+    inputElem.value = '';
+  });
+
+}
+
+function hideLibraryGameModal() {
+
+  var showGameModal = document.getElementById('library-game-modal');
+  var modalBackdrop = document.getElementById('modal-backdrop');
+
+  showGameModal.classList.add('hidden');
+  modalBackdrop.classList.add('hidden');
+
+  clearLibraryGameModalInputs();
+
+}
 /*
 function createGameElement(gameTitle, boxArt, price) {
 
@@ -118,9 +154,9 @@ function handleModalAcceptClick() {
 }
 
 function handleLibraryAddClick(){
-	var gameTitle = document.getElementById('game-text-input').value.trim();
-	var boxArt = document.getElementById('game-photo-input').value.trim();
-	var price = document.getElementById('game-price-input').value.trim();
+	var gameTitle = document.getElementById('library-text-input').value.trim();
+	var boxArt = document.getElementById('library-photo-input').value.trim();
+	var price = document.getElementById('library-price-input').value.trim();
 
 	if (!gameTitle || !boxArt || !price) {
 		alert("You must fill in all of the fields!");
@@ -143,7 +179,69 @@ function handleLibraryAddClick(){
 		
 		// send newGame JSON to server
 		postRequest.send(newGameJSON)
-		hideSellGameModal();
+		hideLibraryGameModal();
+		location.reload();
+	}
+}
+
+function handleLibraryRemoveClick(){
+	var gameTitle = document.getElementById('library-text-input').value.trim();
+	var boxArt = document.getElementById('library-photo-input').value.trim();
+	var price = document.getElementById('library-price-input').value.trim();
+
+	if (!gameTitle) {
+		alert("You must fill in the Title field!");
+	} else {
+    
+		// create POST request
+		var postRequest = new XMLHttpRequest()
+		postRequest.open("POST", "/removeFromLibrary")
+		
+		// create newGame object containing the game to remove
+		var deleteGame = {
+			gameTitle: gameTitle,
+			boxArt: boxArt,
+			price: price
+		}
+		
+		// make a JSON copy of newGame
+		var deleteGameJSON = JSON.stringify(deleteGame)
+		postRequest.setRequestHeader('Content-Type', 'application/json')
+		
+		// send newGame JSON to server
+		postRequest.send(deleteGameJSON)
+		hideLibraryGameModal();
+		location.reload();
+	}
+}
+
+function handleLibraryUpdateClick(){
+	var gameTitle = document.getElementById('library-text-input').value.trim();
+	var boxArt = document.getElementById('library-photo-input').value.trim();
+	var price = document.getElementById('library-price-input').value.trim();
+
+	if (!gameTitle || !price) {
+		alert("You must fill in the Title and Price fields!");
+	} else {
+    
+		// create POST request
+		var postRequest = new XMLHttpRequest()
+		postRequest.open("POST", "/updateLibrary")
+		
+		// create newGame object containing the game to update
+		var updateGame = {
+			gameTitle: gameTitle,
+			boxArt: boxArt,
+			price: price
+		}
+		
+		// make a JSON copy of newGame
+		var updateGameJSON = JSON.stringify(updateGame)
+		postRequest.setRequestHeader('Content-Type', 'application/json')
+		
+		// send newGame JSON to server
+		postRequest.send(updateGameJSON)
+		hideLibraryGameModal();
 		location.reload();
 	}
 }
@@ -236,29 +334,51 @@ function parseGameElem(gameElem) {
 window.addEventListener('DOMContentLoaded', function () {
 
   var sellGameButton = document.getElementById('sell-game-button');
-  sellGameButton.addEventListener('click', showSellGameModal);
-  //if (sellGameButton) {
-  //  sellGameButton.addEventListener('click', showSellGameModal);
-  //}
-
-  var modalAcceptButton = document.getElementById('modal-accept');
-  modalAcceptButton.addEventListener('click', handleModalAcceptClick);
-  //if (modalAcceptButton) {
-  //  modalAcceptButton.addEventListener('click', handleModalAcceptClick);
-  //}
-  
-  var addButton = document.getElementById('library-add-button');
-  addButton.addEventListener('click', handleLibraryAddClick);
-
-  var modalHideButtons = document.getElementsByClassName('modal-hide-button');
-  for (var i = 0; i < modalHideButtons.length; i++) {
-    modalHideButtons[i].addEventListener('click', hideSellGameModal);
+  if (sellGameButton) {
+    sellGameButton.addEventListener('click', showSellGameModal);
   }
 
+  var modalAcceptButton = document.getElementById('modal-accept');
+  if (modalAcceptButton) {
+    modalAcceptButton.addEventListener('click', handleModalAcceptClick);
+  }
+  
   var filterUpdateButton = document.getElementById('filter-update-button');
-  filterUpdateButton.addEventListener('click', doFilterUpdate);
-  //if (filterUpdateButton) {
-  //  filterUpdateButton.addEventListener('click', doFilterUpdate)
-  //}
-
+  if (filterUpdateButton) {
+    filterUpdateButton.addEventListener('click', doFilterUpdate)
+  }
+  
+  var modalHideButtons = document.getElementsByClassName('modal-hide-button');
+  if(modalHideButtons){
+	  for (var i = 0; i < modalHideButtons.length; i++) {
+		modalHideButtons[i].addEventListener('click', hideSellGameModal);
+	  }
+  }
+  
+  var libraryHideButtons = document.getElementsByClassName('library-hide-button');
+  if(libraryHideButtons){
+	  for (var i = 0; i < libraryHideButtons.length; i++) {
+		libraryHideButtons[i].addEventListener('click', hideLibraryGameModal);
+	  }
+  }
+  
+  var libraryGameButton = document.getElementById('library-game-button');
+  if(libraryGameButton){
+    libraryGameButton.addEventListener('click', showLibraryGameModal);
+  }
+  
+  var addButton = document.getElementById('library-add-button');
+  if(addButton){
+    addButton.addEventListener('click', handleLibraryAddClick);
+  }
+  
+  var removeButton = document.getElementById('library-remove-button');
+  if(removeButton){
+    removeButton.addEventListener('click', handleLibraryRemoveClick);
+  }
+  
+  var updateButton = document.getElementById('library-update-button');
+  if(updateButton){
+    updateButton.addEventListener('click', handleLibraryUpdateClick);
+  }
 });

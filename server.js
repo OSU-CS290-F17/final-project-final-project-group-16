@@ -108,6 +108,45 @@ app.post("/addToLibrary", function (req, res, next){
 	}
 })
 
+app.post("/removeFromLibrary", function (req, res, next){
+	if (req.body && req.body.boxArt) {
+		var libraryDataCollection = mongoConnection.collection('libraryData');
+		
+		libraryDataCollection.remove(
+			{ gameTitle: req.body.gameTitle },
+			function (err, result){
+				if(err){
+					res.status(500).send("Error fetching from DB");
+				} else {
+					res.status(200).send("Success");
+				}
+			}
+		);
+    } else {
+		res.status(400).send("Request body was missing a field");
+	}
+})
+
+
+app.post("/updateLibrary", function (req, res, next){
+	if (req.body && req.body.boxArt) {
+		var libraryDataCollection = mongoConnection.collection('libraryData');
+		
+		libraryDataCollection.update(
+			{ gameTitle: req.body.gameTitle }, { $set: {price: req.body.price} },
+			function (err, result){
+				if(err){
+					res.status(500).send("Error fetching from DB");
+				} else {
+					res.status(200).send("Success");
+				}
+			}
+		);
+    } else {
+		res.status(400).send("Request body was missing a field");
+	}
+})
+
 app.use('*', function (req, res) {
 	res.status(404).render("404")
 });
