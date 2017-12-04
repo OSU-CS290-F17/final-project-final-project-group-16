@@ -1,5 +1,3 @@
-/*Everything commeted out is code that should be more compatibile with handlebars.
-Basically the js code we were provided for assignment 5.*/
 
 function showSellGameModal() {
 
@@ -95,20 +93,6 @@ function handleModalAcceptClick() {
   if (!gameTitle || !boxArt || !price) {
     alert("You must fill in all of the fields!");
   } else {
-/*
-    var newGameElem = createGameElement(gameTitle, boxArt, price);
-    allGames.push(newPostElem);
-    
-    var gamesSection = document.getElementById('games');
-    gamesSection.appendChild(newGameElem);
-    */
-    //allGames.push({
-    //  gameTitle: gameTitle,
-    //  boxArt: boxArt,
-    //  price: price
-    //});
-
-    //clearFiltersAndReinsertGames();
     
     // create POST request
     var postRequest = new XMLHttpRequest()
@@ -227,22 +211,6 @@ function insertNewGame(gameTitle, boxArt, price) {
     
     // send newGame JSON to server
     postRequest.send(newGameJSON)
-  
-  /*
-  var gameTemplateArgs = {
-
-      gameTitle: gameTitle,
-      boxArt: boxArt,
-      price: price  
-  
-  };
-  
-  var gameHTML = Handlebars.templates.gameTemplate(gameTemplateArgs);
-  console.log("== gameHTML:", gameHTML);
-  
-  return gameHTML;
-
-*/
 }
 
 
