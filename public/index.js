@@ -1,9 +1,6 @@
 /*Everything commeted out is code that should be more compatibile with handlebars.
 Basically the js code we were provided for assignment 5.*/
 
-
-var allGames = [];
-
 function showSellGameModal() {
 
   var showGameModal = document.getElementById('sell-game-modal');
@@ -167,49 +164,35 @@ function handleLibraryAddClick(){
 	}
 }
 
-function gamePassesFilters(gameElem, filters) {
-
-  if (filters.text) {
-    var gamesTitle = gameElem.gameTitle.toLowerCase();
-    var filterText = filters.text.toLowerCase();
-    if (gamesTitle.indexOf(filterText) === -1) {
-      return false;
-    }
-  }
-
-  if (filters.minPrice) {
-    var gamePrice = Number(gameElem.getAttribute('data-price'));
-    var filterMinPrice = Number(filters.minPrice);
-    if (Number(game.price) < filterMinPrice) {
-      return false;
-    }
-  }
-
-  if (filters.maxPrice) {
-    var gamePrice = Number(gameElem.getAttribute('data-price'));
-    var filterMaxPrice = Number(filters.maxPrice);
-    if (Number(game.price) > filterMaxPrice) {
-      return false;
-    }
-  }
-
-  return true;
-
-}
 
 function doFilterUpdate() {
+	var filter = document.getElementById('filter-text');
+	var minFilter = document.getElementById('filter-min-price');
+	var maxFilter = document.getElementById('filter-max-price');
+	var games = document.getElementById('games');
 
-  var filters = {
-    text: document.getElementById('filter-text').value.trim(),
-    minPrice: document.getElementById('filter-min-price').value,
-    maxPrice: document.getElementById('filter-max-price').value
-   
-  }
-
-  var gameContainer = document.getElementById('games');
-  while(gameContainer.lastChild) {
-    //gameContainer.removeChild(gameContainer.lastChild);
-  }
+	for (var i = 0; i < games.children.length; i++){
+		if(games.children[i].textContent != ""){
+			if(!games.children[i].textContent.toUpperCase().includes(filter.value.toUpperCase())){
+				games.children[i].parentNode.removeChild(games.children[i]);
+				i--;
+			}
+		}
+		
+		if(minFilter.value != ""){
+			if(!(parseInt(games.children[i].getAttribute('data-price')) >= minFilter.valueAsNumber)){
+				games.children[i].parentNode.removeChild(games.children[i]);
+				i--;
+			}
+		}
+		
+		if(maxFilter.value != ""){
+			if(!(parseInt(games.children[i].getAttribute('data-price')) <= maxFilter.valueAsNumber)){
+				games.children[i].parentNode.removeChild(games.children[i]);
+				i--;
+			}
+		}
+	}
 }
 
 
@@ -283,11 +266,6 @@ function parseGameElem(gameElem) {
 
 
 window.addEventListener('DOMContentLoaded', function () {
-
-  var gameElems = document.getElementsByClassName('game');
-  for (var i = 0; i < gameElems.length; i++) {
-    allGames.push(parseGameElem(gameElems[i]));
-  }
 
   var sellGameButton = document.getElementById('sell-game-button');
   sellGameButton.addEventListener('click', showSellGameModal);
